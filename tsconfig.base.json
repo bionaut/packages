@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@./storybook": ["packages/storybook/src/index.ts"],
+      "react-viewport-trap": ["packages/viewport-trap/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

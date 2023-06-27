@@ -8,8 +8,12 @@
 
 To use `ViewportTrap`, simply import it in your React project:
 
+```shell
+npm i react-viewport-trap
+```
+
 ```jsx
-import { ViewportTrap } from 'react-viewport-trap';
+import { ViewportTrap } from 'react-viewport-trap'
 ```
 
 ## Usage
@@ -21,7 +25,3 @@ Wrap the component that you want to keep in the viewport with `ViewportTrap`:
   <MyTooltip />
 </ViewportTrap>
 ```
-
-The `ViewportTrap` component works by observing the visibility of its wrapper in the viewport using the Intersection Observer API. When the wrapper is not fully visible, `ViewportTrap` adjusts the position of the target child element so that it stays within the viewport.
-
-Check 

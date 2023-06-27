@@ -1,8 +1,27 @@
 {
   "name": "react-viewport-trap",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./index.js",
   "types": "./index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bionaut/toolbelt/tree/main/packages/viewport-trap"
+  },
+  "author": {
+    "name": "Jan Krajnak",
+    "email": "jan.krajnak@email.cz"
+  },
+  "homepage": "https://bionaut.github.io/toolbelt/?path=/story/viewporttrap--viewport-trap-story",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "viewport",
+    "trap",
+    "dropdown",
+    "menu",
+    "modal",
+    "tooltip"
+  ],
   "exports": {
     ".": {
       "import": "./index.mjs",

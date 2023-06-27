@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "storybook:build": "nx run storybook:build",
-    "storybook:deploy": "nx run storybook:build && touch ./dist/storybook/storybook/.nojekyll && gh-pages -d ./dist/storybook/storybook -t true",
+    "storybook:build": "nx run storybook:build && touch ./dist/storybook/storybook/.nojekyll",
+    "storybook:deploy": "nx run storybook:build && gh-pages -d ./dist/storybook/storybook -t true",
     "lint": "nx affected:lint --parallel"
   },
   "homepage": "https://bionaut.github.io/toolbelt",
@@ -50,6 +50,7 @@
     "vite": "^4.3.4",
     "vite-plugin-dts": "~1.7.1",
     "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-static-copy": "^0.16.0",
     "vite-tsconfig-paths": "^4.0.2",
     "vitest": "^0.31.0"
   }

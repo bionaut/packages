@@ -30,7 +30,7 @@ export const ViewportTrapStory: Story = {
           position: 'absolute',
           top: 0,
           left: 0,
-          width: '100vw',
+          width: '200vw',
           height: '200vh',
           display: 'flex',
           alignItems: 'center',
@@ -48,15 +48,8 @@ export const ViewportTrapStory: Story = {
             border: '2px dashed gray',
             display: 'flex',
             padding: 20,
-            justifyContent: 'center',
-            alignItems: 'center',
-            textAlign: 'center',
           }}
         >
-          <div>
-            Element will be mounted in 2 seconds, move this square so it is
-            partially off the screen and then wait for the element to appear.
-          </div>
           {isOpen && (
             /* main positional wrapper - e.g. dropdown menu wrapper that is invisible  */
             /* think of this wrapper as the ideal place for your element */
@@ -76,8 +69,17 @@ export const ViewportTrapStory: Story = {
                     height: 300,
                     border: '2px solid black',
                     background: 'rgba(255,255,255,0.5)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}
-                />
+                >
+                  <button style={{
+                    padding: 20,
+                  }} onClick={() => alert('Yay!')}>
+                    I'm always clickable
+                  </button>
+                </div>
               </ViewportTrap>
             </div>
           )}

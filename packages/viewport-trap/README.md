@@ -18,7 +18,8 @@ import { ViewportTrap } from 'react-viewport-trap'
 
 ## Usage
 
-Wrap the component that you want to keep in the viewport with `ViewportTrap`:
+Wrap the component that you want to keep in the viewport at all times with `ViewportTrap`.
+
 
 ```jsx
 <ViewportTrap>

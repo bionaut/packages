@@ -1,0 +1,30 @@
+{
+  "name": "react-modal-hub",
+  "version": "0.1.0",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bionaut/toolbelt/tree/main/packages/modal-hub"
+  },
+  "author": {
+    "name": "Jan Krajnak",
+    "email": "jan.krajnak@email.cz"
+  },
+  "homepage": "https://bionaut.github.io/toolbelt/?path=/story/modalhub--modal-hub-story",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "modal",
+    "hook",
+    "popup",
+    "hub",
+    "typescript"
+  ],
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js"
+    }
+  }
+}

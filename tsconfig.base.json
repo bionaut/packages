@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@./storybook": ["packages/storybook/src/index.ts"],
+      "react-modal-hub": ["packages/modal-hub/src/index.ts"],
       "react-viewport-trap": ["packages/viewport-trap/src/index.ts"]
     }
   },

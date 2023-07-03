@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "storybook": "nx run storybook:start",
     "storybook:build": "nx run storybook:build --skip-cache && touch ./dist/storybook/storybook/.nojekyll",
     "storybook:deploy": "npm run storybook:build && gh-pages -d ./dist/storybook/storybook -t true",
     "lint": "nx affected:lint --parallel"

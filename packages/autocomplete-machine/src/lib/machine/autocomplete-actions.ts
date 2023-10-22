@@ -48,7 +48,6 @@ export const onArrow = assign<AutocompleteContext, AnyEventObject>({
 export const onReset = assign<AutocompleteContext, AnyEventObject>({
   focusedItemId: undefined,
   searchValue: '',
-  items: [],
 })
 
 export const onBlur = assign<AutocompleteContext, AnyEventObject>({

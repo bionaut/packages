@@ -1,16 +1,19 @@
 import { interpret, Interpreter } from 'xstate'
 import { autocompleteMachine } from './autocomplete-machine'
 import { AutocompleteContext } from '../autocomplete-types'
+import { ChangeEvent } from 'react'
 
 describe('autocompleteMachine', () => {
   let service: Interpreter<AutocompleteContext, any, any, any, any>
   const onReset = vi.fn()
+  const onChange = vi.fn()
 
   beforeEach(() => {
     service = interpret(
       autocompleteMachine.withConfig({
         actions: {
           onReset,
+          onChange,
         },
       }),
     ).start()
@@ -61,4 +64,29 @@ describe('autocompleteMachine', () => {
     expect(service.getSnapshot().context.searchValue).toBe('')
     expect(service.getSnapshot().value).toBe('IDLE')
   })
+
+  it('should call onReset action on reset event', () => {
+    const initialItems = [{ id: 1 }, { id: 2 }, { id: 3 }]
+    service.send({ type: 'updateItems', items: initialItems })
+    service.send({ type: 'reset' })
+    expect(onReset).toHaveBeenCalled()
+    expect(service.getSnapshot().context.items).toHaveLength(3)
+    expect(service.getSnapshot().value).toBe('IDLE')
+    service.send({ type: 'focus', target: { value: '' } })
+    expect(service.getSnapshot().value).toBe('FOCUSED_EMPTY')
+  })
+
+  it('external onChange should be called when search value changes', () => {
+    vi.useFakeTimers()
+    service
+      .getSnapshot()
+      .context.events$.next({
+        type: 'change',
+        target: { value: 'test' },
+      } as ChangeEvent<HTMLInputElement>)
+    vi.advanceTimersByTime(500)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    vi.useRealTimers()
+  })
+
 })

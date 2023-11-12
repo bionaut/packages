@@ -89,4 +89,12 @@ describe('autocompleteMachine', () => {
     vi.useRealTimers()
   })
 
+  it('should transition to IDLE when blured', () => {
+    expect(service.getSnapshot().value).toBe('IDLE')
+    service.send({ type: 'focus', target: { value: '' } })
+    expect(service.getSnapshot().value).toBe('FOCUSED_EMPTY')
+    service.send({ type: 'blur' })
+    expect(service.getSnapshot().value).toBe('IDLE')
+  })
+
 })

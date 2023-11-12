@@ -1,0 +1,28 @@
+{
+  "name": "fractional-order",
+  "version": "0.1.1",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bionaut/toolbelt/tree/main/packages/fractional-order"
+  },
+  "author": {
+    "name": "Jan Krajnak",
+    "email": "jan.krajnak@email.cz"
+  },
+  "license": "MIT",
+  "keywords": [
+    "typescript",
+    "fractional",
+    "order",
+    "indexing"
+  ],
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js"
+    }
+  }
+}

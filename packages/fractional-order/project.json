@@ -1,0 +1,46 @@
+{
+  "name": "fractional-order",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/fractional-order/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/fractional-order",
+        "main": "packages/fractional-order/src/index.ts",
+        "tsConfig": "packages/fractional-order/tsconfig.lib.json",
+        "assets": [],
+        "project": "packages/fractional-order/package.json",
+        "format": ["esm", "cjs"]
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs fractional-order {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/fractional-order/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/fractional-order/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

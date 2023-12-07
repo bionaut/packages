@@ -1,4 +1,10 @@
-import { placeBefore, placeAfter, generateKeys, baseChars } from "./fractional-order";
+import {
+  placeBefore,
+  placeAfter,
+  generateKeys,
+  baseChars,
+  sortItems
+} from './fractional-order'
 
 describe('Fractional Indexing Tests', () => {
   describe('generateKeys', () => {
@@ -52,6 +58,28 @@ describe('Fractional Indexing Tests', () => {
       expect(beforeKey < middleKey).toBe(true)
       expect(afterKey > middleKey).toBe(true)
       expect(beforeKey < afterKey).toBe(true)
+    })
+  })
+
+  describe('Sort custom items', () => {
+    test('should sort items by orderIndex', () => {
+      const items = [
+        {
+          id: '2',
+          orderIndex: 'b',
+        },
+        {
+          id: '1',
+          orderIndex: 'a',
+        },
+        {
+          id: '3',
+          orderIndex: 'c',
+        },
+      ]
+
+      const sortedItems = sortItems(items, 'orderIndex')
+      expect(sortedItems.map((item) => item.id)).toEqual(['1', '2', '3'])
     })
   })
 })

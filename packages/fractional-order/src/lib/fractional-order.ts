@@ -57,3 +57,28 @@ function midCharCalc(minChar: string, maxChar: string): string {
   )
   return String.fromCharCode(midCharCode)
 }
+
+export function sortKeys(keys: string[]): string[] {
+  return keys.sort()
+}
+
+export function isFirst(key: string): boolean {
+  return key === baseChars.charAt(0)
+}
+
+export function sortItems<S extends object, T extends keyof S>(
+  items: S[],
+  keyField: T,
+): S[] {
+  return items.sort((a, b) => {
+    const keyA = a[keyField]
+    const keyB = b[keyField]
+    if (keyA < keyB) {
+      return -1
+    }
+    if (keyA > keyB) {
+      return 1
+    }
+    return 0
+  })
+}

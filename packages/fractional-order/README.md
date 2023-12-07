@@ -17,7 +17,7 @@ npm install fractional-order
 
 ### Importing the Functions
 ```typescript
-import { generateKeys, placeBefore, placeAfter } from '[your-package-name]'; // Replace with your actual package name
+import { generateKeys, placeBefore, placeAfter } from 'fractional-order';
 ```
 
 ### Generating Keys

@@ -3,7 +3,8 @@ import {
   placeAfter,
   generateKeys,
   baseChars,
-  sortItems
+  sortItems,
+  placeBetween,
 } from './fractional-order'
 
 describe('Fractional Indexing Tests', () => {
@@ -80,6 +81,16 @@ describe('Fractional Indexing Tests', () => {
 
       const sortedItems = sortItems(items, 'orderIndex')
       expect(sortedItems.map((item) => item.id)).toEqual(['1', '2', '3'])
+    })
+  })
+
+  describe('Place a key between other keys', () => {
+    test('should place a key between two keys', () => {
+      const keys = generateKeys(2)
+      const midKey = placeBetween(keys[0], keys[1])
+
+      expect(midKey > keys[0]).toBe(true)
+      expect(midKey < keys[1]).toBe(true)
     })
   })
 })

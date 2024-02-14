@@ -30,6 +30,10 @@ export function placeAfter(key: string): string {
   )
 }
 
+export function placeBetween<T extends string>(first: T, second: T): T {
+  return midKey(first, second) as T
+}
+
 function midKey(min: string, max: string): string {
   while (min.length < max.length) {
     min += 'a'

@@ -46,7 +46,7 @@ describe('Fractional Indexing Tests', () => {
       const newKey = placeAfter('z')
       expect(newKey.length).toBeGreaterThan(1)
       expect(newKey > 'z').toBe(true)
-      expect(newKey).toBe('zm')
+      expect(newKey).toBe('za')
     })
   })
 
@@ -92,5 +92,13 @@ describe('Fractional Indexing Tests', () => {
       expect(midKey > keys[0]).toBe(true)
       expect(midKey < keys[1]).toBe(true)
     })
+
+    test("placeBetween edge case", () => {
+      const k1 = "ga"
+      const k2 = "gaa"
+      const mid = placeBetween(k1, k2)
+      expect(mid).not.toBe("gaa")
+    });
+
   })
 })

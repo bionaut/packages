@@ -35,6 +35,22 @@ export function placeBetween<T extends string>(first: T, second: T): T {
 }
 
 function midKey(min: string, max: string): string {
+  if (min === max) {
+    throw new Error(
+      'Min and max keys cannot be the same for midpoint calculation.',
+    )
+  }
+
+  // Handle the case where min is a prefix of max more effectively
+  if (max.startsWith(min)) {
+    // If max is directly after min in lexicographical order, we need to find a better mid point
+    if (max === min + 'a') {
+      return min + baseChars.charAt(1) // Use the second character in baseChars if available
+    }
+    return min + 'a' // A simple but effective adjustment for most cases
+  }
+
+  // Adjust min and max to have the same length, as before
   while (min.length < max.length) {
     min += 'a'
   }
@@ -44,22 +60,31 @@ function midKey(min: string, max: string): string {
 
   let result = ''
   for (let i = 0; i < min.length; i++) {
-    const midChar = midCharCalc(min[i], max[i])
-    result += midChar
-    if (midChar !== 'z') {
-      result += 'a'.repeat(min.length - i - 1)
+    const minChar = min.charCodeAt(i)
+    const maxChar = max.charCodeAt(i)
+    if (minChar === maxChar) {
+      result += min[i]
+      continue
+    }
+
+    // Find the midpoint character code
+    let midCharCode = Math.floor((minChar + maxChar) / 2)
+    if (midCharCode <= minChar) {
+      midCharCode = minChar + 1 // Ensure the midCharCode is actually between minChar and maxChar
+    }
+
+    // If the mid character code does not exceed maxChar, use it and terminate the loop
+    if (midCharCode < maxChar) {
+      result +=
+        String.fromCharCode(midCharCode) + 'a'.repeat(min.length - i - 1)
       break
+    } else {
+      // Otherwise, just use minChar and continue the loop
+      result += String.fromCharCode(minChar)
     }
   }
 
   return result
-}
-
-function midCharCalc(minChar: string, maxChar: string): string {
-  const midCharCode = Math.floor(
-    (minChar.charCodeAt(0) + maxChar.charCodeAt(0)) / 2,
-  )
-  return String.fromCharCode(midCharCode)
 }
 
 export function sortKeys(keys: string[]): string[] {

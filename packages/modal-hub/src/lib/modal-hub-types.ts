@@ -31,7 +31,7 @@ export interface UseModalHubResult<TModalProps> {
 }
 
 export interface UseModalHub {
-  <TModalProps extends ModalHubProps>(
+  <TModalProps extends MultiStepModalProps>(
     modal: UseModalHubComponent<TModalProps>,
     props?: Omit<TModalProps, 'onClose' | 'prevStep' | 'nextStep'>,
   ): UseModalHubResult<TModalProps>

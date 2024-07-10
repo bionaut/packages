@@ -1,9 +1,17 @@
 import { FC, ReactElement } from 'react'
 
-export type UseModalHubComponent<TModalProps extends ModalHubProps> = FC<TModalProps>
+export type UseModalHubComponent<TModalProps extends ModalHubProps> =
+  FC<TModalProps>
 
 export interface ModalHubProps {
   onClose: () => void
+  currentStep?: number
+}
+
+export interface MultiStepModalProps extends ModalHubProps {
+  currentStep: number
+  nextStep: () => void
+  prevStep: () => void
 }
 
 export interface ModalHubState {
@@ -25,8 +33,10 @@ export interface UseModalHubResult<TModalProps> {
 export interface UseModalHub {
   <TModalProps extends ModalHubProps>(
     modal: UseModalHubComponent<TModalProps>,
-    props?: Omit<TModalProps, 'onClose'>,
+    props?: Omit<TModalProps, 'onClose' | 'prevStep' | 'nextStep'>,
   ): UseModalHubResult<TModalProps>
 }
 
 export type ModalHubContextValue = readonly [ModalHubState, ModalHubActions]
+
+

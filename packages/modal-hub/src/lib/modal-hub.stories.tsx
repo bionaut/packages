@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { ModalHubProvider, useModalHub } from './modal-hub-context'
-import type { ModalHubProps } from './modal-hub-types'
+import type { MultiStepModalProps } from './modal-hub-types'
 
 const Story: Meta<typeof ModalHubProvider> = {
   title: 'ModalHub',
@@ -23,8 +23,8 @@ export const ModalHubStory: Story = {
 
 function Controls() {
   const sampleModal = useModalHub(SampleModal, {
-    // this is type-safe
     title: 'Default title',
+    currentStep: 0,
   })
 
   return (
@@ -36,12 +36,12 @@ function Controls() {
         style={{ display: 'block' }}
         onClick={() =>
           sampleModal.openWithProps({
-            // this is type-safe
             title: 'Overriden title',
+            currentStep: 1,
           })
         }
       >
-        {`openWithProps({ title: 'Overriden title'})`}
+        {`openWithProps({ title: 'Overriden title', initialStep: 1})`}
       </button>
       <button
         style={{ display: 'block' }}
@@ -54,11 +54,17 @@ function Controls() {
   )
 }
 
-interface SampleModalProps extends ModalHubProps {
+interface SampleModalProps extends MultiStepModalProps {
   title: string
 }
 
-function SampleModal({ title, onClose }: SampleModalProps) {
+function SampleModal({
+  title,
+  onClose,
+  currentStep,
+  nextStep,
+  prevStep,
+}: SampleModalProps) {
   return (
     <div
       style={{
@@ -72,6 +78,13 @@ function SampleModal({ title, onClose }: SampleModalProps) {
       }}
     >
       <h1>{title}</h1>
+      <p>Step {currentStep}</p>
+      <div>
+        <button onClick={prevStep} disabled={currentStep === 0}>
+          Previous
+        </button>
+        <button onClick={nextStep}>Next</button>
+      </div>
       <button onClick={onClose}>Close</button>
     </div>
   )

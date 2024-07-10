@@ -23,6 +23,11 @@ export interface ModalHubActions {
   removeModal: () => void
 }
 
+type OptimizedProps<T extends ModalHubProps> = Omit<
+  T,
+  'currentStep' | 'nextStep' | 'prevStep' | 'onClose'
+> & { currentStep?: number }
+
 export interface UseModalHubResult<TModalProps> {
   open: () => void
   openWithProps: (props?: Partial<TModalProps>) => void
@@ -31,12 +36,10 @@ export interface UseModalHubResult<TModalProps> {
 }
 
 export interface UseModalHub {
-  <TModalProps extends MultiStepModalProps>(
+  <TModalProps extends ModalHubProps>(
     modal: UseModalHubComponent<TModalProps>,
-    props?: Omit<TModalProps, 'onClose' | 'prevStep' | 'nextStep'>,
-  ): UseModalHubResult<TModalProps>
+    props?: OptimizedProps<TModalProps>,
+  ): UseModalHubResult<OptimizedProps<TModalProps>>
 }
 
 export type ModalHubContextValue = readonly [ModalHubState, ModalHubActions]
-
-

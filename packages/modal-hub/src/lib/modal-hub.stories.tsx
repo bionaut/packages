@@ -24,7 +24,6 @@ export const ModalHubStory: Story = {
 function Controls() {
   const sampleModal = useModalHub(SampleModal, {
     title: 'Default title',
-    currentStep: 0,
   })
 
   return (

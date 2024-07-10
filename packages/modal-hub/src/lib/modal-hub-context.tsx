@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useContext,
   useState,
+  useEffect,
 } from 'react'
 
 import {
@@ -14,13 +15,17 @@ import {
   UseModalHub,
 } from './modal-hub-types'
 
-export const modalHubContext = React.createContext<ModalHubContextValue>([] as any)
+export const modalHubContext = React.createContext<ModalHubContextValue>(
+  [] as any,
+)
 
 const Empty: FC = () => {
   return null
 }
 
-export const ModalHubProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
+export const ModalHubProvider: FC<PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   const [state, updateState] = useState<ModalHubState>({})
   const { active } = state
 
@@ -59,26 +64,42 @@ export const ModalHubProvider: FC<PropsWithChildren<unknown>> = ({ children }) =
 
 export const useModalHub: UseModalHub = (modal, props) => {
   const [isOpen, setOpen] = useState(false)
+  const [currentStep, setCurrentStep] = useState(props?.currentStep || 0)
   const [, { removeModal, renderModal }] = useContext(modalHubContext)
 
   const Component = modal
 
   const close = useCallback(() => {
     setOpen(false)
-    removeModal()
-  }, [removeModal])
+  }, [])
+
+  useEffect(() => {
+    if (isOpen) {
+      renderModal(
+        <Component
+          {...(props as any)}
+          onClose={close}
+          currentStep={currentStep}
+          nextStep={() => setCurrentStep((prev) => prev + 1)}
+          prevStep={() => setCurrentStep((prev) => Math.max(prev - 1, 0))}
+        />,
+      )
+    } else {
+      removeModal()
+    }
+  }, [Component, close, props, renderModal, currentStep, isOpen, removeModal])
 
   const open = useCallback(() => {
+    setCurrentStep(props?.currentStep || 0)
     setOpen(true)
-    renderModal(<Component {...(props || ({} as any))} onClose={close} />)
-  }, [Component, close, props, renderModal])
+  }, [props?.currentStep])
 
   const openWithProps = useCallback(
     (overrideProps?: Partial<typeof props>) => {
+      setCurrentStep(overrideProps?.currentStep || props?.currentStep || 0)
       setOpen(true)
-      renderModal(<Component {...({ ...props, ...overrideProps } as any)} onClose={close} />)
     },
-    [Component, close, props, renderModal],
+    [props?.currentStep],
   )
 
   return {
@@ -86,5 +107,6 @@ export const useModalHub: UseModalHub = (modal, props) => {
     close,
     open,
     openWithProps,
+    currentStep,
   }
 }

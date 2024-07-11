@@ -30,7 +30,10 @@ export const ModalHubProvider: FC<PropsWithChildren<unknown>> = ({
   const { active } = state
 
   const renderModal = (modalComponent: ReactElement) => {
-    updateState(() => {
+    updateState((prevState) => {
+      if (prevState.active === modalComponent) {
+        return prevState
+      }
       return {
         active: modalComponent,
       }
@@ -38,7 +41,10 @@ export const ModalHubProvider: FC<PropsWithChildren<unknown>> = ({
   }
 
   const removeModal = () => {
-    updateState(() => {
+    updateState((prevState) => {
+      if (prevState.active === undefined) {
+        return prevState
+      }
       return {
         active: undefined,
       }
@@ -87,7 +93,7 @@ export const useModalHub: UseModalHub = (modal, props) => {
     } else {
       removeModal()
     }
-  }, [Component, close, props, renderModal, currentStep, isOpen, removeModal])
+  }, [Component, close, currentStep, isOpen])
 
   const open = useCallback(() => {
     setCurrentStep(props?.currentStep || 0)

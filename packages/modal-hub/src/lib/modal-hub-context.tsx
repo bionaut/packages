@@ -69,6 +69,7 @@ export const ModalHubProvider: FC<PropsWithChildren<unknown>> = ({
 }
 
 export const useModalHub: UseModalHub = (modal, props) => {
+  const [overrideProps, setOverrideProps] = useState<Partial<typeof props>>({})
   const [isOpen, setOpen] = useState(false)
   const [currentStep, setCurrentStep] = useState(props?.currentStep || 0)
   const [, { removeModal, renderModal }] = useContext(modalHubContext)
@@ -77,13 +78,15 @@ export const useModalHub: UseModalHub = (modal, props) => {
 
   const close = useCallback(() => {
     setOpen(false)
+    setCurrentStep(0)
+    setOverrideProps({})
   }, [])
 
   useEffect(() => {
     if (isOpen) {
       renderModal(
         <Component
-          {...(props as any)}
+          {...({ ...(props as any), ...overrideProps } as any)}
           onClose={close}
           currentStep={currentStep}
           nextStep={() => setCurrentStep((prev) => prev + 1)}
@@ -93,15 +96,17 @@ export const useModalHub: UseModalHub = (modal, props) => {
     } else {
       removeModal()
     }
-  }, [Component, close, currentStep, isOpen])
+  }, [Component, close, currentStep, isOpen, overrideProps])
 
   const open = useCallback(() => {
     setCurrentStep(props?.currentStep || 0)
+    setOverrideProps({})
     setOpen(true)
   }, [props?.currentStep])
 
   const openWithProps = useCallback(
     (overrideProps?: Partial<typeof props>) => {
+      setOverrideProps(overrideProps)
       setCurrentStep(overrideProps?.currentStep || props?.currentStep || 0)
       setOpen(true)
     },

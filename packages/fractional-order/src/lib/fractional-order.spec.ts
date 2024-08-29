@@ -1,104 +1,52 @@
-import {
-  placeBefore,
-  placeAfter,
-  generateKeys,
-  baseChars,
-  sortItems,
-  placeBetween,
-} from './fractional-order'
+import { generateKeys, placeBefore, placeAfter, placeBetween, sortKeys, sortItems } from './fractional-order';
 
-describe('Fractional Indexing Tests', () => {
-  describe('generateKeys', () => {
-    test('should generate the correct number of keys', () => {
-      const keys = generateKeys(5)
-      expect(keys).toHaveLength(5)
-    })
+describe('fractional-order library advanced use cases', () => {
+  it('generateKeys should handle zero count', () => {
+    const keys = generateKeys(0);
+    expect(keys).toEqual([]);
+  });
 
-    test('generated keys should be in sorted order', () => {
-      const keys = generateKeys(5)
-      const sortedKeys = [...keys].sort()
-      expect(keys).toEqual(sortedKeys)
-    })
-  })
+  it('generateKeys should handle large count', () => {
+    const keys = generateKeys(1000);
+    expect(keys.length).toEqual(1000);
+    expect(keys[0]).toEqual(0.001);
+    expect(keys[999]).toEqual(1.000);
+  });
 
-  describe('placeBefore', () => {
-    test('should generate a key before a given key', () => {
-      const key = 'b'
-      const newKey = placeBefore(key)
-      expect(newKey < key).toBe(true)
-    })
+  it('placeBefore should place a new key correctly before the first key', () => {
+    const key = placeBefore(0.001);
+    expect(key).toEqual(0.0005);
+  });
 
-    test('should throw error for placing before the first key based on baseChars', () => {
-      expect(() => placeBefore(baseChars.charAt(0))).toThrow(
-        `Cannot place a key before the first key "${baseChars.charAt(0)}".`,
-      )
-    })
-  })
+  it('placeAfter should place a new key correctly after the last key', () => {
+    const key = placeAfter(0.999);
+    expect(key).toEqual(0.9995);
+  });
 
-  describe('placeAfter', () => {
-    test('should generate a key after a given key', () => {
-      const key = 'b'
-      const newKey = placeAfter(key)
-      expect(newKey > key).toBe(true)
-    })
+  it('placeBetween should handle placing between very close keys', () => {
+    const key = placeBetween(0.001, 0.002);
+    expect(key).toEqual(0.0015);
+  });
 
-    test('generated key after "z" should be longer', () => {
-      const newKey = placeAfter('z')
-      expect(newKey.length).toBeGreaterThan(1)
-      expect(newKey > 'z').toBe(true)
-      expect(newKey).toBe('za')
-    })
-  })
+  it('sortKeys should handle already sorted array', () => {
+    const sortedKeys = sortKeys([0.1, 0.2, 0.3]);
+    expect(sortedKeys).toEqual([0.1, 0.2, 0.3]);
+  });
 
-  describe('Key Placement Consistency', () => {
-    test('placing a key after and before should give sorted keys', () => {
-      const middleKey = 'm'
-      const beforeKey = placeBefore(middleKey)
-      const afterKey = placeAfter(middleKey)
+  it('sortKeys should handle reverse sorted array', () => {
+    const sortedKeys = sortKeys([0.3, 0.2, 0.1]);
+    expect(sortedKeys).toEqual([0.1, 0.2, 0.3]);
+  });
 
-      expect(beforeKey < middleKey).toBe(true)
-      expect(afterKey > middleKey).toBe(true)
-      expect(beforeKey < afterKey).toBe(true)
-    })
-  })
+  it('sortItems should handle items with duplicate keys', () => {
+    const items = [{ key: 0.2 }, { key: 0.1 }, { key: 0.2 }];
+    const sortedItems = sortItems(items, 'key');
+    expect(sortedItems).toEqual([{ key: 0.1 }, { key: 0.2 }, { key: 0.2 }]);
+  });
 
-  describe('Sort custom items', () => {
-    test('should sort items by orderIndex', () => {
-      const items = [
-        {
-          id: '2',
-          orderIndex: 'b',
-        },
-        {
-          id: '1',
-          orderIndex: 'a',
-        },
-        {
-          id: '3',
-          orderIndex: 'c',
-        },
-      ]
-
-      const sortedItems = sortItems(items, 'orderIndex')
-      expect(sortedItems.map((item) => item.id)).toEqual(['1', '2', '3'])
-    })
-  })
-
-  describe('Place a key between other keys', () => {
-    test('should place a key between two keys', () => {
-      const keys = generateKeys(2)
-      const midKey = placeBetween(keys[0], keys[1])
-
-      expect(midKey > keys[0]).toBe(true)
-      expect(midKey < keys[1]).toBe(true)
-    })
-
-    test("placeBetween edge case", () => {
-      const k1 = "ga"
-      const k2 = "gaa"
-      const mid = placeBetween(k1, k2)
-      expect(mid).not.toBe("gaa")
-    });
-
-  })
-})
+  it('sortItems should handle items with negative keys', () => {
+    const items = [{ key: -0.1 }, { key: 0.1 }, { key: -0.2 }];
+    const sortedItems = sortItems(items, 'key');
+    expect(sortedItems).toEqual([{ key: -0.2 }, { key: -0.1 }, { key: 0.1 }]);
+  });
+});

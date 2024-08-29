@@ -121,3 +121,8 @@ export const useModalHub: UseModalHub = (modal, props) => {
     currentStep,
   }
 }
+
+export const useCloseModalHub = () => {
+  const [, { removeModal }] = useContext(modalHubContext)
+  return removeModal
+}
